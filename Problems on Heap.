@@ -1,0 +1,68 @@
+1.Heapify Algorithm.
+class Solution {
+    public void heapify(int[] nums, int ind, int val) {
+        if (nums[ind] < val) {
+            nums[ind] = val;
+            heapifyUp(nums, ind);
+        } else {
+            nums[ind] = val;
+            heapifyDown(nums, ind);
+        }
+    }
+    public void heapifyDown(int[] arr, int ind) {
+        int n = arr.length;
+        int largest = ind;
+        int leftChild_ind = 2 * ind + 1;
+        int rightChild_ind = 2 * ind + 2;
+        if (leftChild_ind < n && arr[leftChild_ind] > arr[largest]) {
+            largest = leftChild_ind;
+        }
+        if (rightChild_ind < n && arr[rightChild_ind] > arr[largest]) {
+            largest = rightChild_ind;
+        }
+        if (largest != ind) {
+            int temp = arr[ind];
+            arr[ind] = arr[largest];
+            arr[largest] = temp;
+            heapifyDown(arr, largest); 
+        }
+    }
+    public void heapifyUp(int[] arr, int ind) {
+        if (ind > 0) {
+            int parent_ind = (ind - 1) / 2;
+            if (arr[ind] > arr[parent_ind]) {
+                int temp = arr[ind];
+                arr[ind] = arr[parent_ind];
+                arr[parent_ind] = temp;
+                heapifyUp(arr, parent_ind);
+            }
+        }
+    }
+}
+
+2.Build heap from a given Array
+class Solution {
+    public void buildMinHeap(int[] nums) {
+        int n = nums.length;
+        for (int i = (n / 2) - 1; i >= 0; i--) {
+            heapifyDown(nums, i, n);
+        }
+    }
+    public void heapifyDown(int[] arr, int ind, int n) {
+        int smallest = ind;
+        int leftChild = 2 * ind + 1;
+        int rightChild = 2 * ind + 2;
+        if (leftChild < n && arr[leftChild] < arr[smallest]) {
+            smallest = leftChild;
+        }
+        if (rightChild < n && arr[rightChild] < arr[smallest]) {
+            smallest = rightChild;
+        }
+        if (smallest != ind) {
+            int temp = arr[ind];
+            arr[ind] = arr[smallest];
+            arr[smallest] = temp;
+            heapifyDown(arr, smallest, n);
+        }
+    }
+}
