@@ -66,3 +66,147 @@ class Solution {
         }
     }
 }
+3.Implement Min Heap. 
+import java.util.*;
+class Solution {
+    private List<Integer> arr = new ArrayList<>(); 
+    private int count = 0;
+    private void heapifyUp(List<Integer> arr, int ind) {
+        int parentInd = (ind - 1)/2; 
+        if(ind > 0 && arr.get(ind) < arr.get(parentInd)) {
+            int temp = arr.get(ind);
+            arr.set(ind, arr.get(parentInd));
+            arr.set(parentInd, temp);
+            heapifyUp(arr, parentInd);
+        } 
+    }    
+    private void heapifyDown(List<Integer> arr, int ind) {
+        int n = arr.size(); 
+        int smallestInd = ind; 
+        int leftChildInd = 2*ind + 1;
+        int rightChildInd = 2*ind + 2;        
+        if(leftChildInd < n && arr.get(leftChildInd) < arr.get(smallestInd)) 
+            smallestInd = leftChildInd;
+        if(rightChildInd < n && arr.get(rightChildInd) < arr.get(smallestInd)) 
+            smallestInd = rightChildInd;
+        if(smallestInd != ind) {
+            int temp = arr.get(smallestInd);
+            arr.set(smallestInd, arr.get(ind));
+            arr.set(ind, temp);
+            heapifyDown(arr, smallestInd);
+        }
+    }    
+    public void initializeHeap() {
+        arr.clear();
+        count = 0;
+    }    
+    public void insert(int key) {
+        arr.add(key);        
+        heapifyUp(arr, count);
+        count = count + 1;
+    }      
+    public void changeKey(int index, int new_val) {
+        if(arr.get(index) > new_val) {
+            arr.set(index, new_val);
+            heapifyUp(arr, index);
+        } else {
+            arr.set(index, new_val);
+            heapifyDown(arr, index);
+        }
+    }  
+    public void extractMin() {
+        int temp = arr.get(count - 1);
+        arr.set(count - 1, arr.get(0));
+        arr.set(0, temp);
+        arr.remove(count - 1);
+        count = count - 1;
+        if(count > 0) {
+            heapifyDown(arr, 0);
+        }
+    } 
+    public boolean isEmpty() {
+        return (count == 0);
+    } 
+    public int getMin() {
+        return arr.get(0);
+    }
+    public int heapSize() {
+        return count;
+    }
+}
+4.Implement Max Heap.
+import java.util.*;
+
+class Solution {
+    int cnt = 0;
+    List<Integer> arr = new ArrayList<>();
+    private void heapifyDown(List<Integer> arr, int ind) {
+        int n = arr.size();
+        int largest = ind;
+        int leftChild = 2 * ind + 1;
+        int rightChild = 2 * ind + 2;
+
+        if (leftChild < n && arr.get(largest) < arr.get(leftChild)) {
+            largest = leftChild;
+        }
+        if (rightChild < n && arr.get(largest) < arr.get(rightChild)) {
+            largest = rightChild;
+        }
+
+        if (largest != ind) {
+            int temp = arr.get(largest);
+            arr.set(largest, arr.get(ind));
+            arr.set(ind, temp);
+            heapifyDown(arr, largest); 
+        }
+    }
+    private void heapifyUp(List<Integer> arr, int ind) {
+        int parentInd = (ind - 1) / 2;
+        if (ind > 0 && arr.get(ind) > arr.get(parentInd)) {
+            int temp = arr.get(parentInd);
+            arr.set(parentInd, arr.get(ind));
+            arr.set(ind, temp);
+            heapifyUp(arr, parentInd);
+        }
+    }
+    public void initializeHeap() {
+        arr.clear();
+        cnt = 0;
+    }
+    public void insert(int key) {
+        arr.add(key);
+        heapifyUp(arr, cnt); 
+        cnt++;
+    }
+    public void changeKey(int ind, int newVal) {
+        if (newVal > ind) {
+            arr.set(ind , newVal);
+            heapifyUp(arr, ind);
+        } else {
+            arr.set(ind , newVal);
+            heapifyDown(arr, ind);
+        }
+    }
+    public void extractMax() {
+        if (cnt == 0) return;
+        int temp = arr.get(cnt - 1);
+        arr.set(cnt - 1, arr.get(0));
+        arr.set(0, temp);
+        arr.remove(cnt - 1);
+        cnt--;
+        if (cnt > 0) {
+            heapifyDown(arr, 0);
+        }
+    }
+    public boolean isEmpty() {
+        return cnt == 0;
+    }
+
+    public int getMax() {
+        return arr.get(0);
+    }
+
+    public int heapSize() {
+        return cnt;
+    }
+}
