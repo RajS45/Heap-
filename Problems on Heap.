@@ -295,3 +295,38 @@ class Solution {
         }
     }
 }
+8. Kth largest element in a stream of running integers.
+class KthLargest {
+    private PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    private int k;
+    public KthLargest(int k, int[] nums) {
+        this.k = k;
+        for (int num : nums) {
+            minHeap.offer(num);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+    }
+    public int add(int val) {
+        minHeap.offer(val);
+        if (minHeap.size() > k) {
+            minHeap.poll();
+        }
+        return minHeap.peek();
+    }
+    public static void main(String []args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int []arr = new int[n];
+        for(int i=0;i<n;i++){
+            arr[i] = sc.nextInt();
+        }
+        int k = sc.nextInt();
+        KthLargest sol = new KthLargest();
+        int [] res = sol.KthLargest(arr , k);
+        for(int i=0;i<res.length; i++){
+            System.out.println(res[i]);
+        }
+    }
+}
